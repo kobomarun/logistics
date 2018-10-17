@@ -7,12 +7,15 @@ class CustomerDash extends CI_Controller {
 	{
 		$data['pageName'] = "Customer Dashboard";
 		$this->db->where('pay_status',"Paid");
+		$this->db->where('customerid',$this->session->userdata('id'));
 		$data['paid'] =$this->db->count_all_results('shipment');
 
 		$this->db->where('status',"Transit");
+		$this->db->where('customerid',$this->session->userdata('id'));
 		$data['transit'] = $this->db->count_all_results('shipment');
 
 		$this->db->where('status',"Delivered");
+		$this->db->where('customerid',$this->session->userdata('id'));
 		$data['delivered'] = $this->db->count_all_results('shipment');
 
 		$this->load->view('template/header');

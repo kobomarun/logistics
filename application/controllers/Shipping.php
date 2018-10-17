@@ -20,15 +20,20 @@ class Shipping extends CI_Controller {
 
 	public function processShipping() {
 		$trackingNumber = 'frx'.rand(1000001111,2);
-		if( $this->input->post('pay_method')=="POS") {
+		if( $this->input->post('pay_method')=="TTF") {
 			$extra = 50;
 			$gtotal = $this->input->post('amount') - $this->input->post('price')- 50;
+			$paid = "Not Paid";
 		}
-		else  if( $this->input->post('pay_method')=="TTF") {
+		else  if( $this->input->post('pay_method')=="POS") {
 			$extra = $this->input->post('amount') * 0.75/100;
 			$gtotal = $this->input->post('amount') - 	$extra - $this->input->post('price');
+			$paid = "Not Paid";
 		} else {
 			$gtotal = $this->input->post('amount');
+			$extra = 0;
+			$paid = "Paid";
+
 		}
 
 		$data = array(
@@ -56,10 +61,12 @@ class Shipping extends CI_Controller {
 			'shipment_type'=>$this->input->post('shipment_type'),
 			'mode'=>'office',
 			'customerid'=>$this->input->post('customer'),
-			'amount'=>$gtotal,
-			'pay_status'=>'Not Paid',
+			'amount'=>$this->input->post('amount'),
+			'remitted'=>$gtotal,
+			'pay_status'=>$paid,
 			'size'=> $this->input->post('size'),
-			'extra_charges'=>$extra
+			'extra_charges'=>$extra,
+			'prepared_by'=>$this->session->userdata('id')
 		);
  $data2 = array(
 	 'tracking_no' =>$trackingNumber,
@@ -78,6 +85,18 @@ class Shipping extends CI_Controller {
 
 	public function edited() {
 		$id = $this->input->post('id');
+		if( $this->input->post('pay_method')=="POS") {
+			$extra = 50;
+			$gtotal = $this->input->post('amount') - $this->input->post('price')- 50;
+		}
+		else  if( $this->input->post('pay_method')=="TTF") {
+			$extra = $this->input->post('amount') * 0.75/100;
+			$gtotal = $this->input->post('amount') - 	$extra - $this->input->post('price');
+		} else {
+			$gtotal = $this->input->post('amount');
+			$extra = 0;
+		}
+
 		$data = array(
 			's_name'=>$this->input->post('sname'),
 			's_address'=>$this->input->post('saddress'),
@@ -100,7 +119,11 @@ class Shipping extends CI_Controller {
 			'shipment_type'=>$this->input->post('shipment_type'),
 			'customerid'=>$this->input->post('customer'),
 			'amount'=>$this->input->post('amount'),
-			'pay_method'=>$this->input->post('pay_method')
+			'remitted'=>$gtotal,
+			'pay_method'=>$this->input->post('pay_method'),
+			'size'=> $this->input->post('size'),
+			'extra_charges'=>$extra,
+			'prepared_by'=>$this->session->userdata('id')
 
 		);
 		$data2 = array(

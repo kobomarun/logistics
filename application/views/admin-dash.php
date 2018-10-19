@@ -1,52 +1,45 @@
-        <!--row -->
-        <div class="row">
-            <div class="col-md-3 col-sm-6">
-              <a href="#">
-                <div class="white-box">
-                    <div class="r-icon-stats">
-                        <i class="ti-user bg-danger"></i>
-                        <div class="bodystate">
-                            <h4>0</h4>
-                            <span class="text-muted">Online Booking</span>
-                        </div>
-                    </div>
-                </div>
-              </a>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="white-box">
-                    <div class="r-icon-stats">
-                        <i class="ti-shopping-cart bg-info"></i>
-                        <div class="bodystate">
-                            <h4>0</h4>
-                            <span class="text-muted">Shipment - In Transit</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="white-box">
-                    <div class="r-icon-stats">
-                        <i class="ti-wallet bg-success"></i>
-                        <div class="bodystate">
-                            <h4>0</h4>
-                            <span class="text-muted">Shipment - Delivered</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="white-box">
-                    <div class="r-icon-stats">
-                        <i class="ti-star bg-inverse"></i>
-                        <div class="bodystate">
-                            <h4>56%</h4>
-                            <span class="text-muted">New Leads</span>
-                        </div>
-                    </div>
+<!--row -->
+<div class="row">
+    <div class="col-md-6 col-sm-6">
+      <a href="<?php echo base_url(); ?>myshipment/pending">
+        <div class="white-box">
+            <div class="r-icon-stats">
+                <i class="ti-money bg-danger"></i>
+                <div class="bodystate">
+                    <h4>N<?php echo number_format($monthly_total,2); ?></h4>
+                    <span class="text-muted">Income for <?php echo date("F") .", " . date("Y"); ?></span>
                 </div>
             </div>
         </div>
-        <!--/row -->
-
+      </a>
     </div>
+    <div class="col-md-6 col-sm-6">
+      <a href="<?php echo base_url(); ?>myshipment/transit">
+        <div class="white-box">
+            <div class="r-icon-stats">
+                <i class="ti-money bg-info"></i>
+                <div class="bodystate">
+                    <h4>N<?php echo number_format($total,2); ?></h4>
+                    <span class="text-muted">Total Income</span>
+                </div>
+            </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-6 col-sm-6">
+      <a href="<?php echo base_url(); ?>myshipment/transit">
+        <div class="white-box">
+            <div class="r-icon-stats">
+                <i class="ti-money bg-info"></i>
+                <div class="bodystate">
+                    <h4><?php echo $customer_payment; ?></h4>
+                    <span class="text-muted">Customer Pending Payment</span>
+                </div>
+            </div>
+        </div>
+      </a>
+    </div>
+</div>
+<!--/row -->
+
+</div>

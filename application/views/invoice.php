@@ -10,6 +10,8 @@
         </address>
       </div>
       <div class="text-right">
+        <img src="<?php //echo $barcode; ?>" alt="">
+
           <button id="print" onclick='printDiv();' class="btn btn-default btn-outline" type="button"> <span><i class="fa fa-print"></i> Print</span> </button>
       </div><br />
         <h3><b>INVOICE</b> <span class="pull-right">#<?php echo $view['tracking_no']; ?></span></h3>

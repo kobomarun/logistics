@@ -24,10 +24,17 @@
                     <li> <a href="<?php echo base_url(); ?>settings/shippingprices">Shipping Prices</a></li>
                     <li> <a href="<?php echo base_url(); ?>settings/paymentmethod">Payment Method</a></li>
                     <li> <a href="<?php echo base_url(); ?>settings/shipmenttypes">Type of Shipment</a></li>
+                    <li> <a href="<?php echo base_url(); ?>settings/offices">Create & View Office</a></li>
+                    <li> <a href="<?php echo base_url(); ?>settings/staff">Create & View Staff</a></li>
                 </ul>
             </li>
             <li> <a href="<?php echo base_url();?>tracking/trackitems" class="waves-effect"><i data-icon="P" class="linea-icon linea-basic fa-fw"></i> <span class="hide-menu">Track Items</span></a> </li>
-            <
+            <li><a href="javascript:void(0);" class="waves-effect"><i class="icon-people fa-fw"></i> <span class="hide-menu">Accounting<span class="fa arrow"></span></span></a>
+                <ul class="nav nav-second-level">
+                    <li> <a href="<?php echo base_url(); ?>accounting">Dashboard</a></li>
+                    <li> <a href="<?php echo base_url(); ?>users">Customer Payments</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
 </div>

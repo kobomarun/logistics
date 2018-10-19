@@ -35,7 +35,7 @@ class Settings extends CI_Controller {
 
 	public function editshippingstatus($id) {
 		$data['pageName'] = "Edit Shipping Status";
-		$id = $this->uri->segment('3');
+		$id = $this->uri->segment(3);
 		$data['edit'] = $this->db->get_where('payment_status',array('id'=>$id))->row_array();
 		if($this->input->post('submit')) {
 			$status = $this->input->post('status');
@@ -136,5 +136,94 @@ class Settings extends CI_Controller {
 			$this->load->view('template/footer');
 		}
 	}
+
+	public function offices() {
+		$data['pageName'] = "FAREX OFFICE";
+		$data['view'] = $this->db->get('office')->result();
+		if($this->input->post('submit')) {
+			$name= $this->input->post('name');
+			$address= $this->input->post('address');
+			$phone= $this->input->post('phone');
+
+			$data = array(
+				'name'=>$name,
+				'address'=>$address,
+				'phone'=>$phone
+			);
+			$insert = $this->db->insert('office',$data);
+			if($insert) {
+				$this->session->Set_flashdata('success','Office details successfully submited');
+				redirect('settings/offices');
+			}
+		} else {
+			$this->load->view('template/header');
+			$this->load->view('template/nav',$data);
+			$this->load->view('office-details-form');
+			$this->load->view('template/footer');
+		}
+	}
+
+	public function editoffice($id) {
+		$data['pageName'] = "Edit FAREX OFFICE";
+		$id = $this->uri->segment(3);
+		$data['view'] = $this->db->get_where('office',array('id'=>$id))->row_array();
+
+		if($this->input->post('submit')) {
+			$name= $this->input->post('name');
+			$address= $this->input->post('address');
+			$phone= $this->input->post('phone');
+
+			$data = array(
+				'name'=>$name,
+				'address'=>$address,
+				'phone'=>$phone
+			);
+			$this->db->where('id',$id);
+			$update = $this->db->update('office',$data);
+			if($update) {
+				$this->session->Set_flashdata('success','Office details successfully edited');
+				redirect('settings/offices');
+			}
+		} else {
+			$this->load->view('template/header');
+			$this->load->view('template/nav',$data);
+			$this->load->view('edit-office-details-form',$data);
+			$this->load->view('template/footer');
+		}
+	}
+
+	public function staff() {
+		$data['pageName'] = "Staff";
+		$data['office'] = $this->db->get('office')->result();
+
+		$data['staff'] = $this->db->get_where('allusers',array('type'=>"staff"))->result();
+		if($this->input->post('submit')) {
+			$name= $this->input->post('name');
+			$username= $this->input->post('username');
+			$password= $this->input->post('password');
+			$email= $this->input->post('email');
+
+			$data = array(
+				'name'=>$name,
+				'username'=>$username,
+				'password'=>$password,
+				'email'=>$email,
+				'type'=>'staff',
+				'position'=>$this->input->post('position'),
+				'office_id'=>$this->input->post('office')
+			);
+			$insert = $this->db->insert('allusers',$data);
+			if($insert) {
+				$this->session->set_flashdata('success','Office details successfully submited');
+				redirect('settings/staff');
+			}
+		} else {
+			$this->load->view('template/header');
+			$this->load->view('template/nav',$data);
+			$this->load->view('staff-form');
+			$this->load->view('template/footer');
+		}
+	}
+
 
 }

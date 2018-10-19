@@ -24,11 +24,13 @@ class Shipping extends CI_Controller {
 			$extra = 50;
 			$gtotal = $this->input->post('amount') - $this->input->post('price')- 50;
 			$paid = "Not Paid";
+			//send email
 		}
 		else  if( $this->input->post('pay_method')=="POS") {
 			$extra = $this->input->post('amount') * 0.75/100;
 			$gtotal = $this->input->post('amount') - 	$extra - $this->input->post('price');
 			$paid = "Not Paid";
+			//send email
 		} else {
 			$gtotal = $this->input->post('amount');
 			$extra = 0;
@@ -66,7 +68,9 @@ class Shipping extends CI_Controller {
 			'pay_status'=>$paid,
 			'size'=> $this->input->post('size'),
 			'extra_charges'=>$extra,
-			'prepared_by'=>$this->session->userdata('id')
+			'prepared_by'=>$this->session->userdata('id'),
+			'month'=>date("m"),
+			'payment_made'=>$this->input->post('payment_made')
 		);
  $data2 = array(
 	 'tracking_no' =>$trackingNumber,
@@ -156,6 +160,12 @@ class Shipping extends CI_Controller {
 		$data['pageName'] = "View All Shipping";
 		$this->db->order_by('collection_date','desc');
 		$data['view'] = $this->db->get_where('shipment',array('customerid'=>$cid))->result();
+		$query = $this->db->get_where('shipment',array('customerid'=>$cid, 'payment_made'=>"No"))->result();
+		$sum_owe = 0;
+		foreach ($query as $r) {
+			$sum_owe += $r->price;
+		}
+		$data['owe'] = $sum_owe;
 		$this->load->view('template/header');
 		$this->load->view('template/nav',$data);
 		$this->load->view('view-customer-order',$data);
@@ -176,14 +186,23 @@ class Shipping extends CI_Controller {
 	}
 
 	public function invoice($id) {
-		$data['pageName'] = "Invoice";
-
 		$id = $this->uri->segment(3);
+
+		$data['pageName'] = "Invoice";
+		$temp = rand(10000, 99999);
+		//$data['barcode']= $this->set_barcode($id);
 		$data['view'] = $this->db->get_where('shipment', array('tracking_no'=>$id))->row_array();
 		 $this->load->view('template/header');
 		// $this->load->view('template/nav',$data);
 		$this->load->view('invoice',$data);
 		 $this->load->view('template/footer');
+	}
+
+	public function set_barcode($code)
+	{
+		$this->load->library('zend');
+		$this->zend->load('Zend/Barcode');
+		Zend_Barcode::factory('code128', 'image', array('text'=>$code), array())->render(); exit;
 	}
 
 	public function pay_customer($id) {
@@ -218,5 +237,23 @@ class Shipping extends CI_Controller {
 			redirect('shipping/customerorders/1');
 		}
 		//print_r($check);
+	}
+
+	function recovershipmoney() {
+		$check = $this->input->post('check');
+		$cid = $this->input->post('cid');
+
+		foreach($check as $row) {
+			$data = array('payment_made'=>'Yes');
+			$this->db->where('tracking_no',$row);
+			$update = $this->db->update('shipment',$data);
+
+		}
+		if($update) {
+			$this->session->set_flashdata('success','Payment Recover Successfully');
+			redirect('shipping/customerorders/'.$cid);
+		}
+
+//print_r($check);
 	}
 }

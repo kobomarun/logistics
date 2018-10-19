@@ -147,7 +147,7 @@
 </div>
   <div class="form-group white-box" align="center">
     <div class="form-group">
-        <label for="exampleInputEmail1">Payment Method</label>
+        <label for="exampleInputEmail1">Customer Payment Method</label>
         <select class="form-control" data-placeholder="Payment Method" tabindex="1" name="pay_method" required>
           <?php foreach($method as $row) { ?>
             <option value="<?php echo $row->name; ?>"><?php echo $row->name; ?></option>
@@ -172,7 +172,13 @@
             <option value="Area 2">Area 2</option>
           </select>
     </div>
-
+    <div class="form-group">
+        <label for="exampleInputpwd1">Size Charges</label>
+        <div class="input-group">
+            <div class="input-group-addon"><i class="ti-money"></i></div>
+            <input type="text" class="form-control" name="size" id="size" value="" placeholder="Enter Size Charges" required onblur="addSize()">
+        </div>
+    </div>
     <div class="form-group">
         <label for="exampleInputpwd1">Price</label>
         <div class="input-group">
@@ -181,11 +187,11 @@
         </div>
     </div>
     <div class="form-group">
-        <label for="exampleInputpwd1">Size Charges</label>
-        <div class="input-group">
-            <div class="input-group-addon"><i class="ti-money"></i></div>
-            <input type="text" class="form-control" name="size" id="size" value="" placeholder="Enter Size Charges" required onblur="addSize()">
-        </div>
+        <label for="exampleInputpwd1">Has Shipping Payment Made?</label>
+          <select class="form-control" data-placeholder="Payment M" tabindex="1" name="payment_made" required>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
     </div>
 
     <div class="form-group">
